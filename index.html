@@ -7,6 +7,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DB58PPQ0V1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-DB58PPQ0V1');
+    </script>
     <style>
         :root {
             --primary-font: 'Playfair Display', serif;
@@ -39,6 +48,7 @@
         body {
             font-family: var(--body-font);
             line-height: 1.7;
+            padding-top: 65px; /* Space for fixed nav */
             color: var(--color-text);
             background-color: var(--color-background);
             -webkit-font-smoothing: antialiased;
@@ -51,6 +61,69 @@
             padding: 0 20px;
         }
         
+        /* Navigation Bar */
+        .main-nav {
+            background-color: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: var(--primary-font);
+            font-size: 1.25rem;
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-menu a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-primary);
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active-link {
+            color: var(--color-primary);
+        }
+
+        .nav-menu a:hover::after, .nav-menu a.active-link::after {
+            width: 100%;
+        }
+
+        .nav-toggle { display: none; }
+
         header {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1587813374423-4283933a99a3?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
             color: white;
@@ -243,10 +316,76 @@
             h2 { font-size: 1.8rem; }
             header { padding: 4rem 1rem; }
             .report-form { padding: 1.5rem; }
+
+            .nav-menu {
+                position: fixed;
+                top: 65px; /* Match body padding-top */
+                left: -100%; /* Start off-screen */
+                width: 100%;
+                height: calc(100vh - 65px);
+                background-color: var(--color-surface);
+                flex-direction: column;
+                justify-content: center;
+                gap: 2rem;
+                transition: left 0.4s ease-in-out;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-toggle {
+                display: block;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0.5rem;
+                z-index: 1001;
+            }
+
+            .hamburger {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background-color: var(--color-text);
+                position: relative;
+                transition: transform 0.3s, background-color 0.2s;
+            }
+
+            .hamburger::before, .hamburger::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 3px;
+                background-color: var(--color-text);
+                left: 0;
+                transition: transform 0.3s, top 0.3s;
+            }
+            .hamburger::before { top: -8px; }
+            .hamburger::after { top: 8px; }
+
+            .nav-toggle.active .hamburger { background-color: transparent; }
+            .nav-toggle.active .hamburger::before { transform: rotate(45deg); top: 0; }
+            .nav-toggle.active .hamburger::after { transform: rotate(-45deg); top: 0; }
         }
     </style>
 </head>
 <body>
+    <nav class="main-nav">
+        <div class="container nav-container">
+            <a href="#" class="nav-brand">Voz Silenciada</a>
+            <div class="nav-menu">
+                <a href="#relatos">Padrões</a>
+                <a href="#denuncia">Denuncie</a>
+                <a href="#recursos">Recursos</a>
+                <a href="relato.html">Relato Completo</a>
+            </div>
+            <button class="nav-toggle" aria-label="toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </nav>
+
     <header>
         <h1>Voz Silenciada</h1>
         <p>Um espaço seguro para relatos sobre cuidados institucionais</p>
@@ -385,6 +524,15 @@
                 </div>
                 
                 <div class="resource-card">
+                    <h3>Um Relato Pessoal</h3>
+                    <p>Leia o relato anônimo "Comunidade Terapêutica ou Cárcere Privado?" para uma perspectiva aprofundada sobre as experiências em instituições de "tratamento".</p>
+                    <ul>
+                        <li><a href="relato.html">Ler o relato completo &rarr;</a></li>
+                    </ul>
+                </div>
+
+
+                <div class="resource-card">
                     <h3>Apoio Jurídico</h3>
                     <p>Como buscar ajuda:</p>
                     <ul>
@@ -431,6 +579,37 @@
             sections.forEach(section => {
                 observer.observe(section);
             });
+
+            // Navigation toggle for mobile
+            const navToggle = document.querySelector('.nav-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+
+            navToggle.addEventListener('click', () => {
+                navToggle.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            // Close mobile menu when a link is clicked
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navMenu.classList.contains('active')) {
+                        navToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    }
+                });
+            });
+
+            // Optional: Highlight active nav link on scroll
+            const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => link.classList.remove('active-link'));
+                        document.querySelector(`.nav-menu a[href="#${entry.target.id}"]`).classList.add('active-link');
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px' });
+            sections.forEach(section => scrollObserver.observe(section));
 
         })();
     </script>
